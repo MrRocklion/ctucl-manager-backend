@@ -1,1 +1,35 @@
-export class CreateUserDto {}
+import { ApiProperty } from '@nestjs/swagger';
+import { users } from '@prisma/client';
+import { AccountType } from '@prisma/client';
+
+export class CreateUserDto implements Omit<users, 'id' | 'createdAt' | 'updatedAt' | 'uuid' | 'isActive'|'companyId'> {
+  @ApiProperty({ example: 'johndoe', description: 'Nombre de usuario único' })
+  username: string;
+
+  @ApiProperty({ example: 'johndoe@example.com', description: 'Correo electrónico único' })
+  email: string;
+
+  @ApiProperty({ example: '0987654321', description: 'Número de teléfono', required: false })
+  phone: string;
+
+  @ApiProperty({ example: '12345678', description: 'Número de registro', required: false })
+  register: string;
+
+  @ApiProperty({ example: 'Av. Siempre Viva 123', description: 'Dirección del usuario' })
+  address: string;
+
+  @ApiProperty({ example: AccountType.USER, description: 'Tipo de cuenta',enum: AccountType, })
+  accountType: AccountType;
+
+  @ApiProperty({ example: 'John', description: 'Nombre del usuario' })
+  name: string;
+
+  @ApiProperty({ example: 'Doe', description: 'Apellido del usuario' })
+  lastname: string;
+
+  @ApiProperty({ example: 'securepassword123', description: 'Contraseña en texto plano (será hasheada)' })
+  password: string;
+
+  @ApiProperty({ example: '1990-05-15T00:00:00.000Z', description: 'Fecha de nacimiento en formato ISO8601' })
+  birthday: Date;
+}

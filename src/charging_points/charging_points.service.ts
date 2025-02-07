@@ -14,7 +14,7 @@ export class ChargingPointsService {
   }
 
   findAll() {
-    return `This action returns all chargingPoints`;
+    return this.prismaService.charging_points.findMany;
   }
 
   findOne(id: number) {
