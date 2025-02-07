@@ -7,13 +7,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  @ApiOperation({ summary: 'Inicia sesión de usuario' }) 
-  // @ApiHeader({
-  //   id: 'x-tenant-id',
-  //   user: 'Tenant ID',
-  //   password: true,
-  // })
-  
+  @ApiOperation({ summary: 'Inicia sesión de usuario' })   
   async login(@Body() body, @Res() res: Response) {
     const user = { id: 1, username: 'test', password: 'facil123' };
 

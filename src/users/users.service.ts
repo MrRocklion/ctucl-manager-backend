@@ -27,6 +27,14 @@ export class UsersService {
   findOne(id: number) {
     return `This action returns a #${id} user`;
   }
+  findByUsername(username: string) {
+    return this.prismaService.users.findUnique(
+      {
+        where:{username:username}
+      }
+    )
+  }
+
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
