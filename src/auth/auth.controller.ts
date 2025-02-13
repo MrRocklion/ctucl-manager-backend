@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Res, HttpStatus, HttpException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
-import { ApiHeader, ApiOperation } from '@nestjs/swagger';
+import { ApiOperation } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')

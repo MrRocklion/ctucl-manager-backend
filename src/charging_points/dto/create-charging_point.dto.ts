@@ -24,7 +24,7 @@ export class CreateChargingPointDto implements Omit<charging_points, 'id' | 'cre
   @ApiProperty({ example: 'Doe', description: 'Apellido del propietario del negocio' })
   lastname: string;
 
-  @ApiProperty({ example: '19645212319872313198', description: 'ID del dispositivo que reporta datos', nullable: true })
+  @ApiProperty({ example: null, description: 'ID del dispositivo que reporta datos', nullable: true })
   device_id: string | null;
 
   @ApiProperty({ example: 'jhondoe123', description: 'Usuario de la aplicación de recargas', nullable: true })
