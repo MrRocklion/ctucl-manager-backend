@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
+import { LoginDto } from 'src/auth/dto/login.dto';
+import { ValidateUserDto } from './dto/validate-user.dto';
 @Injectable()
 export class UsersService {
   constructor(private prismaService: PrismaService){}
@@ -20,27 +21,26 @@ export class UsersService {
     }
   }
 
-  findAll() {
-    return `This action returns all users`;
-  }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-  findByUsername(username: string) {
-    return this.prismaService.users.findUnique(
+  async findUserById(id: string) {
+    return  this.prismaService.users.findUnique(
       {
-        where:{username:username}
+        where:{uuid:id}
       }
     )
   }
 
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async validateUser(user: LoginDto): Promise<ValidateUserDto> {
+    const exists = await this.prismaService.users.findUnique({
+      where: {
+        username: user.username,
+      },
+    });
+  
+    return exists ? { exists: true, data: exists } : { exists: false, data: null };
   }
+  
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
+
+
 }

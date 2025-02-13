@@ -1,29 +1,28 @@
-import { Controller, Post, Res, Body } from '@nestjs/common';
+import { Controller, Post, Body, Res, HttpStatus, HttpException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
 import { ApiHeader, ApiOperation } from '@nestjs/swagger';
+import { LoginDto } from './dto/login.dto';
+
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
   @ApiOperation({ summary: 'Inicia sesión de usuario' })   
-  async login(@Body() body, @Res() res: Response) {
-    const user = { id: 1, username: 'test', password: 'facil123' };
+  async login(@Body() body:LoginDto, @Res() res: Response) {
+    const token = await this.authService.login(body);
 
-    const isValid = await this.authService.validateUser(body.password, user.password);
-    if (!isValid) {
-      return res.status(401).json({ message: 'Credenciales incorrectas' });
+    if (token?.access) {
+      res.cookie('token', token.access_token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict',
+      });
+
+      return res.status(HttpStatus.OK).json({ message: 'Login exitoso' });
+    } else {
+      return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Credenciales incorrectas' });
     }
-
-    const token = this.authService.login(user);
-
-    res.cookie('token', (await token).access_token, {
-      httpOnly: true, // No accesible desde JavaScript
-      secure: true, // Solo en HTTPS
-      sameSite: 'strict', // Evita ataques CSRF
-    });
-
-    return res.json({ message: 'Login exitoso' });
   }
 }
