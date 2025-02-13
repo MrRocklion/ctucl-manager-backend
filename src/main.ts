@@ -6,12 +6,11 @@ import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api')
-  app.use(cookieParser()); // Habilita el middleware de cookies
-
+  app.use(cookieParser()); 
   const config = new DocumentBuilder()
-    .setTitle('CTUCL SIMTRA API') // Título de la API
+    .setTitle('CTUCL SIMTRA API')
     .setDescription('Api para el sistema SIMTRA de control de flota y gestion del consorcio') 
-    .setVersion('1.0') // Versión de la API
+    .setVersion('1.0')
     .addTag('API')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
