@@ -20,9 +20,9 @@ export class AuthController {
         sameSite: 'strict',
       });
 
-      return res.status(HttpStatus.OK).json({ message: 'Login exitoso' });
+      return res.status(HttpStatus.OK).json({ message: 'Login exitoso',auth:true,data:token.data });
     } else {
-      return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Credenciales incorrectas' });
+      return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Credenciales incorrectas',auth:false,data:token?.data });
     }
   }
 }

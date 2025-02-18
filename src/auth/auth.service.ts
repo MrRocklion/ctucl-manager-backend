@@ -18,14 +18,16 @@ export class AuthService {
             if (!isValid) {
                 return {
                     access: false,
-                    access_token:''
+                    access_token:'',
+                    data:{}
                 };
               }
     
             const token =   await this.jwtService.sign(user)
             return {
                 access: true,
-                access_token:token
+                access_token:token,
+                data:userValid.data
             };
         }
     }

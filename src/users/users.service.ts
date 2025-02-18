@@ -31,11 +31,20 @@ export class UsersService {
   }
 
   async validateUser(user: LoginDto): Promise<ValidateUserDto> {
-    const exists = await this.prismaService.users.findUnique({
-      where: {
-        username: user.username,
-      },
-    });
+    let exists: any
+    if(user.email!= null){
+       exists = await this.prismaService.users.findUnique({
+        where: {
+          email: user.email,
+        },
+      });
+    }else{
+       exists = await this.prismaService.users.findUnique({
+        where: {
+          username: user.username,
+        },
+      });
+    }
   
     return exists ? { exists: true, data: exists } : { exists: false, data: null };
   }
