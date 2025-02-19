@@ -10,11 +10,10 @@ async function bootstrap() {
 
   // Deshabilitar CORS completamente
   app.enableCors({
-    origin: '*', // Aceptar peticiones desde cualquier origen
-    credentials: true, // Permitir cookies y autenticación
-    allowedHeaders: '*', // Permitir todos los headers
-    methods: '*', // Permitir todos los métodos HTTP
+    origin: 'http://localhost:3000', // 👈 Permite el frontend
+    credentials: true, // 👈 Necesario para enviar cookies
   });
+
 
   const config = new DocumentBuilder()
     .setTitle('CTUCL SIMTRA API')
