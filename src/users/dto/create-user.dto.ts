@@ -12,7 +12,7 @@ export class CreateUserDto implements Omit<users, 'id' | 'createdAt' | 'updatedA
   @ApiProperty({ example: '0987654321', description: 'Número de teléfono', required: false })
   phone: string;
 
-  @ApiProperty({ example: '12345678', description: 'Número de registro', required: false })
+  @ApiProperty({ example: '12345678', description: 'Número de cedula', required: false })
   register: string;
 
   @ApiProperty({ example: 'Av. Siempre Viva 123', description: 'Dirección del usuario' })
