@@ -62,4 +62,18 @@ model users {
   birthday    DateTime
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+
+  mqttCommands mqtt_commands[] // Relación 1-N con mqtt_commands
+}
+
+model mqtt_commands {
+  id        Int    @id @default(autoincrement())
+  name      String
+  lastname  String
+  command   String     
+  username  String 
+  email     String 
+  user      users  @relation(fields: [user_id], references: [id])
+  user_id   Int    
+  createdAt DateTime @default(now())
 }

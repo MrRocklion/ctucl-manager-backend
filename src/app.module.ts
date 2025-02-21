@@ -4,6 +4,7 @@ import { AuthModule } from './auth/auth.module';
 import { ChargingPointsModule } from './charging_points/charging_points.module';
 import { UsersModule } from './users/users.module';
 import { BusStationModule } from './bus_station/bus_station.module';
+import { MqttModule } from './mqtt/mqtt.module';
 
 @Module({
   imports: [
@@ -11,7 +12,8 @@ import { BusStationModule } from './bus_station/bus_station.module';
     AuthModule,
     ChargingPointsModule,
     UsersModule,
-    BusStationModule
+    BusStationModule,
+    MqttModule
   ],
 })
 export class AppModule {}
