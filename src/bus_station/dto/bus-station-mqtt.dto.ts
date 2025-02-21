@@ -4,23 +4,29 @@ import {mqtt_commands} from "@prisma/client";
 
 export class MqttCommand implements Omit<mqtt_commands, 'id' |'createdAt'> {
 
-    @ApiProperty({ example: 1, description: 'Longitud geográfica del punto de carga' })
+    @ApiProperty({ example: 1, description: 'id del usuario que envia el comando' })
     user_id: number;
 
-    @ApiProperty({ example: "jhon", description: 'Longitud geográfica del punto de carga' })
+    @ApiProperty({ example: "jhon", description: 'nombre del usuario que envio el comando' })
     name: string;
 
-    @ApiProperty({ example: "doe", description: 'Longitud geográfica del punto de carga' })
+    @ApiProperty({ example: "doe", description: 'apellido del usuario que envio el comando' })
     lastname: string;
 
-    @ApiProperty({ example: "jhondoe@example.com", description: 'Longitud geográfica del punto de carga' })
+    @ApiProperty({ example: "jhondoe@example.com", description: 'correo de la persona que envio' })
     email: string;
 
 
-    @ApiProperty({ example: "test_arrow", description: 'Longitud geográfica del punto de carga' })
+    @ApiProperty({ example: "warning_sound", description: 'comando' })
     command: string;
     
-    @ApiProperty({ example: "jhondoe", description: 'Longitud geográfica del punto de carga' })
+    @ApiProperty({ example: "audio", description: 'si va afectar al mecanismo o al audio' })
+    path: string;
+
+    @ApiProperty({ example: "jhondoe", description: 'usuario que realiza la peticion' })
     username: string;
+
+    @ApiProperty({ example: "desarrollo/commands", description: 'topico de la solicitud' })
+    topic: string;
 
 }

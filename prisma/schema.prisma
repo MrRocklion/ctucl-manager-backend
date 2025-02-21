@@ -74,6 +74,8 @@ model mqtt_commands {
   username  String 
   email     String 
   user      users  @relation(fields: [user_id], references: [id])
-  user_id   Int    
+  user_id   Int 
+  path      String   
   createdAt DateTime @default(now())
+  topic     String
 }
