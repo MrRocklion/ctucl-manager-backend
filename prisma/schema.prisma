@@ -63,10 +63,10 @@ model users {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
-  mqttCommands mqtt_commands[] // Relación 1-N con mqtt_commands
+  mqttCommands mqtt_command_history[] // Relación 1-N con mqtt_commands
 }
 
-model mqtt_commands {
+model mqtt_command_history {
   id        Int    @id @default(autoincrement())
   name      String
   lastname  String

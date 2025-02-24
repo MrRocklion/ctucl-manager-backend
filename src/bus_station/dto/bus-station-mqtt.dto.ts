@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {mqtt_commands} from "@prisma/client";
+import {mqtt_command_history} from "@prisma/client";
 
 
-export class MqttCommand implements Omit<mqtt_commands, 'id' |'createdAt'> {
+export class MqttCommand implements Omit<mqtt_command_history, 'id' |'createdAt'> {
 
     @ApiProperty({ example: 1, description: 'id del usuario que envia el comando' })
     user_id: number;
