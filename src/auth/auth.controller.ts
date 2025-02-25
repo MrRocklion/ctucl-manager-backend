@@ -19,6 +19,7 @@ export class AuthController {
         secure: true,
         sameSite: 'strict',
       });
+      //ojala esta vex funcione
 
       return res.status(HttpStatus.OK).json({ message: 'Login exitoso',auth:true,data:token.data });
     } else {
