@@ -16,7 +16,7 @@ export class AuthController {
     if (token?.access) {
       res.cookie('token', token.access_token, {
         httpOnly: true, // La cookie no es accesible desde JavaScript
-        secure: true, // Solo enviar sobre HTTPS
+        secure: false, // Solo enviar sobre HTTPS
         sameSite: 'none', // Permitir solicitudes cruzadas
     });
       //ojala esta vex funcione 2
