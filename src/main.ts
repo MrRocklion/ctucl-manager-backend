@@ -11,9 +11,7 @@ async function bootstrap() {
   // Deshabilitar CORS completamente
   app.enableCors({
     origin: ['http://localhost:3000','https://ctucl-manager-frontend.vercel.app'], // 👈 Permite el frontend
-    credentials: true, // 👈 Necesario para enviar cookies
-    allowedHeaders: ['Content-Type', 'Authorization'], // Asegúrate de incluir todos los encabezados necesarios
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true, //
   });
 
 

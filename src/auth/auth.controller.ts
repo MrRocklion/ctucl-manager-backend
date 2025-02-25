@@ -16,7 +16,7 @@ export class AuthController {
     if (token?.access) {
       res.cookie('token', token.access_token, {
         httpOnly: true,
-        secure: true,
+        secure: false,
         sameSite: 'none',
       });
       //ojala esta vex funcione 2
