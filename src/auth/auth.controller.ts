@@ -14,11 +14,10 @@ export class AuthController {
     const token = await this.authService.login(body);
 
     if (token?.access) {
-      res.cookie('token', token, {
+      res.cookie('token', token.access_token, {
         httpOnly: true, // La cookie no es accesible desde JavaScript
         secure: true, // Solo enviar sobre HTTPS
         sameSite: 'none', // Permitir solicitudes cruzadas
-        domain: '.ctucl-manager-frontend.vercel.app', //rmitir cookies en subdominios
     });
       //ojala esta vex funcione 2
 
