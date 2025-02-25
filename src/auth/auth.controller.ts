@@ -16,10 +16,10 @@ export class AuthController {
     if (token?.access) {
       res.cookie('token', token.access_token, {
         httpOnly: true,
-        secure: false,
-        sameSite: 'strict',
+        secure: true,
+        sameSite: 'none',
       });
-      //ojala esta vex funcione
+      //ojala esta vex funcione 2
 
       return res.status(HttpStatus.OK).json({ message: 'Login exitoso',auth:true,data:token.data });
     } else {
