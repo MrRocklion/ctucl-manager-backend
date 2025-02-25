@@ -27,7 +27,7 @@ export class AuthService {
             return {
                 access: true,
                 access_token:token,
-                data:userValid.data
+                data:{...userValid.data,token:token}
             };
         }
     }
