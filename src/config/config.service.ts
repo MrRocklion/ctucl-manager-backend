@@ -8,6 +8,7 @@ export class AppConfigService {
     private readonly _db: DbConfig;
     private readonly _crypto: CryptoConfig;
     private readonly _mqtt: MqttConfig;
+    private readonly _firebase: FirebaseConfig;
     constructor(private readonly configService: ConfigService<EnvConfig>) {
         this._db = {
             host: this.configService.get('DB_HOST') as string,
@@ -24,22 +25,18 @@ export class AppConfigService {
             username:this.configService.get('USERNAME_BROKER') as string,
             password:this.configService.get('PASSWORD_BROKER') as string,
         }
-    }
-    get db() {
-        return this._db;
-    }
-
-    get crypto() {
-        return this._crypto;
-    }
-    get mqtt_vars(){
-        return this._mqtt;
+        this._firebase = {
+            project_id: this.configService.get('FIREBASE_PROJECT_ID') as string,
+            client_email: this.configService.get('FIREBASE_CLIENT_EMAIL') as string,
+            private_key: this.configService.get('FIREBASE_PRIVATE_KEY') as string
+        }
     }
     get config() {
         return {
           db: this._db,
           crypto: this._crypto,
-          mqtt:this._mqtt
+          mqtt:this._mqtt,
+          firebase:this._firebase
         };
       }
     

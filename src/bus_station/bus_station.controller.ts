@@ -1,9 +1,9 @@
 import { Controller,UseGuards,Post,Body, Get,HttpStatus,HttpException  } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/auth.guard';
+import { FirebaseAuthGuard } from 'src/auth/firebase-auth.guard';
 import { MqttCommand } from './dto/bus-station-mqtt.dto';
 import { BusStationService } from './bus_station.service';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(FirebaseAuthGuard)
 @Controller('bus-station')
 export class BusStationController {
     constructor(private readonly bus_station_service: BusStationService) {}

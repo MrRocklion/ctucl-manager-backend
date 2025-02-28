@@ -7,9 +7,9 @@ export class MqttService implements OnModuleInit, OnModuleDestroy {
   private client: mqtt.MqttClient;
 
   constructor(private readonly configService: AppConfigService) {
-    this.client = mqtt.connect(`mqtts://${configService.mqtt_vars.broker}:${configService.mqtt_vars.port}`, {
-      username: configService.mqtt_vars.username,
-      password: configService.mqtt_vars.password,
+    this.client = mqtt.connect(`mqtts://${configService.config.mqtt.broker}:${configService.config.mqtt.port}`, {
+      username: configService.config.mqtt.username,
+      password: configService.config.mqtt.password,
       rejectUnauthorized: false,
     });
 

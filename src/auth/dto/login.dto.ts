@@ -13,4 +13,8 @@ export class LoginDto {
   @ApiProperty({ example: 'securepassword123', description: 'Contraseña del usuario' })
   @IsString()
   password: string;
+
+  @ApiProperty({ example: 'dsadsaewqafdsfxzczxc', description: 'Firebase Token' })
+  @IsString()
+  firebase_token: string;
 }

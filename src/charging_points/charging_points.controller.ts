@@ -2,9 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete,UseGuards } from '@ne
 import { ChargingPointsService } from './charging_points.service';
 import { CreateChargingPointDto } from './dto/create-charging_point.dto';
 import { UpdateChargingPointDto } from './dto/update-charging_point.dto';
-import { JwtAuthGuard } from 'src/auth/auth.guard';
+import { FirebaseAuthGuard } from 'src/auth/firebase-auth.guard';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(FirebaseAuthGuard)
 @Controller('charging-points')
 export class ChargingPointsController {
   constructor(private readonly chargingPointsService: ChargingPointsService) {}
