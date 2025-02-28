@@ -4,6 +4,8 @@ import { CreateChargingPointDto } from './dto/create-charging_point.dto';
 import { UpdateChargingPointDto } from './dto/update-charging_point.dto';
 import { FirebaseAuthGuard } from 'src/auth/firebase-auth.guard';
 
+
+
 @UseGuards(FirebaseAuthGuard)
 @Controller('charging-points')
 export class ChargingPointsController {

@@ -4,10 +4,11 @@ import { UsersService } from 'src/users/users.service';
 import { ValidateUserDto } from 'src/users/dto/validate-user.dto';
 import * as admin from 'firebase-admin';
 import { AppConfigService } from 'src/config/config.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly usersService: UsersService,private readonly configService: AppConfigService) {
+    constructor(private readonly prismaService: PrismaService,private readonly configService: AppConfigService) {
         if (!admin.apps.length) {
             admin.initializeApp({
               credential: admin.credential.cert({
@@ -26,11 +27,28 @@ export class AuthService {
           throw new UnauthorizedException('Invalid or expired token');
         }
     }
-
+    async validateUser(user: LoginDto): Promise<ValidateUserDto> {
+        let exists: any
+        if(user.email!= null){
+           exists = await this.prismaService.users.findUnique({
+            where: {
+              email: user.email,
+            },
+          });
+        }else{
+           exists = await this.prismaService.users.findUnique({
+            where: {
+              username: user.username,
+            },
+          });
+        }
+      
+        return exists ? { exists: true, data: exists } : { exists: false, data: null };
+      }
     async login(LoginData: LoginDto) {
         try {
             // 1️⃣ Verificar si el usuario existe en PostgreSQL
-            const userValid: ValidateUserDto = await this.usersService.validateUser(LoginData);
+            const userValid: ValidateUserDto = await this.validateUser(LoginData);
             
             if (!userValid.exists) {
                 return {
