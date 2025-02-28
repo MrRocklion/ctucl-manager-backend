@@ -10,7 +10,7 @@ export class AuthController {
 
   @Post('login')
   @ApiOperation({ summary: 'Inicia sesión de usuario con Token' })   
-  async login(@Body() body:LoginDto, @Res() res: Response) {
-    return this.authService.login(body)
+  async login(@Body() body:LoginDto) {
+    return await this.authService.login(body)
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable,UnauthorizedException  } from '@nestjs/common';
+import { Injectable, HttpException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { UsersService } from 'src/users/users.service';
 import { ValidateUserDto } from 'src/users/dto/validate-user.dto';
@@ -45,30 +45,27 @@ export class AuthService {
       
         return exists ? { exists: true, data: exists } : { exists: false, data: null };
       }
-    async login(LoginData: LoginDto) {
+      async login(LoginData: LoginDto) {
         try {
             // 1️⃣ Verificar si el usuario existe en PostgreSQL
             const userValid: ValidateUserDto = await this.validateUser(LoginData);
             
             if (!userValid.exists) {
-                return {
-                    access: false,
-                    message: 'Usuario no encontrado en la base de datos',
-                    data: {}
-                };
+              // console.log("usuario no encontrado")
+                throw new NotFoundException('Usuario no encontrado en la base de datos');
             }
-    
+            //console.log(LoginData)
             // 2️⃣ Verificar el token de Firebase
             const decodedToken = await admin.auth().verifyIdToken(LoginData.firebase_token);
-            
+            //console.log(decodedToken)
             // 3️⃣ Obtener detalles del usuario en Firebase
             const firebaseUser = await admin.auth().getUser(decodedToken.uid);
-    
+            //console.log(firebaseUser)
             // 4️⃣ Devolver información detallada
             return {
                 access: true,
                 message: 'Login exitoso',
-                data: {
+                result: {
                     uid: firebaseUser.uid,
                     email: firebaseUser.email,
                     displayName: firebaseUser.displayName,
@@ -81,20 +78,26 @@ export class AuthService {
             };
             
         } catch (error) {
-            console.error('Error en login:', error.message);
+            //console.error('Error en login:', error.message);
     
             let errorMessage = 'Error desconocido';
+            let statusCode = 500; // Internal Server Error
+    
             if (error.code === 'auth/invalid-id-token') {
                 errorMessage = 'Token de Firebase inválido';
+                statusCode = 401; // Unauthorized
             } else if (error.code === 'auth/id-token-expired') {
                 errorMessage = 'Token de Firebase expirado';
+                statusCode = 401; // Unauthorized
+            } else if (error instanceof NotFoundException || error instanceof UnauthorizedException) {
+                // Propagar excepciones de NestJS
+                throw error;
             }
     
-            return {
-                access: false,
-                message: errorMessage,
-                data: {}
-            };
+            throw new HttpException(
+                { message: errorMessage, statusCode },
+                statusCode,
+            );
         }
     }
     
