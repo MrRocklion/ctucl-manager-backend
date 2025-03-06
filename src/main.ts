@@ -10,7 +10,7 @@ async function bootstrap() {
 
   // Deshabilitar CORS completamente
   app.enableCors({
-    origin: ['http://localhost:3000','https://ctucl-manager-frontend.vercel.app'], // 👈 Permite el frontend
+    origin: ['http://localhost:3000','https://ctucl-manager-frontend.vercel.app','*'], // 👈 Permite el frontend
     credentials: true, //
   });
 
