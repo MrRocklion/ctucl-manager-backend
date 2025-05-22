@@ -57,4 +57,7 @@ export class ChargingPoint {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column({default:true})
+  is_active: boolean;
 }

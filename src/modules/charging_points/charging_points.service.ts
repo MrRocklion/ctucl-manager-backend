@@ -46,7 +46,12 @@ export class ChargingPointsService {
   // Método para obtener todos los puntos de carga
   async findAll() {
     try {
-      const chargingPoints = await this.chargingPointsRepository.find();
+      const chargingPoints = await this.chargingPointsRepository.find(
+        {
+          where: { is_active: true },
+          order: { createdAt: 'DESC' },
+        },
+      );
       return {
         message: 'Puntos de carga obtenidos con éxito',
         status: 200,
@@ -120,35 +125,60 @@ export class ChargingPointsService {
       return {
         message: error instanceof Error ? error.message : "Error desconocido",
         status: 500,
-        result: null,
+        result: null
       };
     }
   }
 
   // Método para eliminar un punto de carga
-  async remove(id: number) {
+  async softDelete(id: number) {
     try {
       const chargingPoint = await this.chargingPointsRepository.findOneBy({id});
       if (!chargingPoint) {
         return {
           message: `Punto de carga con id ${id} no encontrado`,
           status: 404,
-          result: null,
+          result: null
         };
       }
-      await this.chargingPointsRepository.remove(chargingPoint);
+      await this.chargingPointsRepository.update(id, { is_active: false });
 
       return {
         message: 'Punto de carga eliminado con éxito',
-        status: 200,
-        result: chargingPoint,
+        status: 204 ,
       };
     } catch (error) {
       console.error("❌ Error al eliminar el punto de carga:", error);
       return {
         message: error instanceof Error ? error.message : "Error desconocido",
         status: 500,
-        result: null,
+        result: null
+      };
+    }
+  }
+
+    async activate(id: number) {
+    try {
+      const chargingPoint = await this.chargingPointsRepository.findOneBy({id});
+      if (!chargingPoint) {
+        return {
+          message: `Punto de carga con id ${id} no encontrado`,
+          status: 404,
+          result: null
+        };
+      }
+      await this.chargingPointsRepository.update(id, { is_active: true });
+
+      return {
+        message: 'Punto de carga activado con éxito',
+        status: 204 ,
+      };
+    } catch (error) {
+      console.error("❌ Error al activar el punto de carga:", error);
+      return {
+        message: error instanceof Error ? error.message : "Error desconocido",
+        status: 500,
+        result: null
       };
     }
   }

@@ -26,13 +26,13 @@ export class ChargingPointsController {
     return this.chargingPointsService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateChargingPointDto: UpdateChargingPointDto) {
-    return this.chargingPointsService.update(+id, updateChargingPointDto);
-  }
 
-  @Delete(':id')
+  @Patch(':id/deactivate')
   remove(@Param('id') id: string) {
-    return this.chargingPointsService.remove(+id);
+    return this.chargingPointsService.softDelete(+id);
+  }
+  @Patch(':id/activate')
+  activate(@Param('id') id: string) {
+    return this.chargingPointsService.activate(+id);
   }
 }
