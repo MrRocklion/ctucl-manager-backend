@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppConfigModule } from './config/config.module';
-import { AuthModule } from './auth/auth.module';
-import { ChargingPointsModule } from './charging_points/charging_points.module';
-import { UsersModule } from './users/users.module';
-import { BusStationModule } from './bus_station/bus_station.module';
-import { MqttModule } from './mqtt/mqtt.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { ChargingPointsModule } from './modules/charging_points/charging_points.module';
+import { UsersModule } from './modules/users/users.module';
+import { BusStationModule } from './modules/bus_station/bus_station.module';
+import { MqttModule } from './modules/mqtt/mqtt.module';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { MqttModule } from './mqtt/mqtt.module';
     ChargingPointsModule,
     UsersModule,
     BusStationModule,
-    MqttModule
+    MqttModule,
+    DatabaseModule
   ],
 })
 export class AppModule {}
