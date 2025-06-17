@@ -53,6 +53,12 @@ export class User {
   @Column({ nullable: true })
   @IsOptional()
   @IsString()
+  @ApiProperty({ description: 'Cedula del Usuario', example: '1123585671', required: false })
+  dni?: string;
+
+  @Column({ nullable: true })
+  @IsOptional()
+  @IsString()
   @ApiProperty({ description: 'Dirección del usuario', example: 'Av. 10 de Agosto y Colón', required: false })
   address?: string;
 

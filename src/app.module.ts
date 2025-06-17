@@ -5,6 +5,7 @@ import { UsersModule } from './modules/users/users.module';
 import { BusStationModule } from './modules/bus_station/bus_station.module';
 import { MqttModule } from './modules/mqtt/mqtt.module';
 import { DatabaseModule } from './database/database.module';
+import { CompanyModule } from './modules/company/company.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { DatabaseModule } from './database/database.module';
     UsersModule,
     BusStationModule,
     MqttModule,
-    DatabaseModule
+    DatabaseModule,
+    CompanyModule
   ],
 })
 export class AppModule {}

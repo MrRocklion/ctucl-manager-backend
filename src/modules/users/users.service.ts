@@ -1,23 +1,48 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import * as bcrypt from 'bcrypt';
 import { LoginDto } from 'src/modules/auth/dto/login.dto';
 import { ValidateUserDto } from './dto/validate-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/database/entities/user.entity';
 import { Repository } from 'typeorm';
+import { Company } from 'src/database/entities/company.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Company)
+    private readonly companyRepository: Repository<Company>,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
     try {
       
-      const savedUser = await this.userRepository.save(createUserDto);
+      const existingEmail = await this.userRepository.findOne({
+        where: { email: createUserDto.email },
+      });
+
+      const companyRepository = await this.companyRepository.findOne({
+        where: { id: createUserDto.company_id },
+    });
+
+      if (!companyRepository) {
+        throw new ConflictException('La empresa no existe');
+      }
+      
+
+      if (existingEmail) {
+        throw new ConflictException('El correo electrónico ya está registrado');
+      }
+      let userData = {
+        ...createUserDto,
+        company: companyRepository,
+        name:createUserDto.name.toLocaleUpperCase(),
+        lastname:createUserDto.lastname.toLocaleUpperCase(),
+        address: createUserDto.address ? createUserDto.address.toLocaleUpperCase() : '',
+      }
+      const savedUser = await this.userRepository.save(userData);
 
       return {
         message: 'Usuario creado con éxito',
