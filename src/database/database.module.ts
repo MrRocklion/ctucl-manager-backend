@@ -6,6 +6,13 @@ import { MqttCommandHistory } from './entities/mqtt-command-history.entity';
 import { Company } from './entities/company.entity';
 import { ChargingPoint } from './entities/charging-point.entity';
 import { User } from './entities/user.entity';
+import { BusLine } from './entities/bus-line.entity';
+import { BusLineStations } from './entities/bus-station-line.entity';
+import { BusStation } from './entities/bus-station.entity';
+import { Device } from './entities/device.entity';
+import { Intinerary } from './entities/intenerary.entity';
+import { Schedule } from './entities/schedule.entity';
+import { Vehicle } from './entities/vehicles.entity';
 @Module({
   imports: [
     AppConfigModule, // Importa ConfigModule para acceder a las variables de entorno
@@ -20,12 +27,23 @@ import { User } from './entities/user.entity';
         password: configService.config.db.paswword,
         database: configService.config.db.database,
         entities: [
-          MqttCommandHistory,
-          Company,
+          BusLine,
+          BusLineStations,
+          BusStation,
           ChargingPoint,
-          User
+          Company,
+          Device,
+          Intinerary,
+          MqttCommandHistory,
+          Schedule,
+          User,
+          Vehicle
         ],
-        synchronize: false, // Maneja sincronización con una variable
+        synchronize: false,
+        ssl:process.env.DB_SS
+    ? { rejectUnauthorized: false }
+    : false,
+     // Maneja sincronización con una variable
       }),
     }),
   ],

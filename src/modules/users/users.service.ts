@@ -16,14 +16,8 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     try {
-      const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-
-      const newUser = this.userRepository.create({
-        ...createUserDto,
-        password: hashedPassword,
-      });
-
-      const savedUser = await this.userRepository.save(newUser);
+      
+      const savedUser = await this.userRepository.save(createUserDto);
 
       return {
         message: 'Usuario creado con éxito',

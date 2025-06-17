@@ -30,9 +30,6 @@ export class CreateUserDto {
   @ApiProperty({ example: 'Doe', description: 'Apellido del usuario' })
   lastname: string;
 
-  @ApiProperty({ example: 'securepassword123', description: 'Contraseña en texto plano (será hasheada)' })
-  password: string;
-
   @ApiProperty({ example: '1990-05-15T00:00:00.000Z', description: 'Fecha de nacimiento en formato ISO8601' })
   birthday: Date;
 }
