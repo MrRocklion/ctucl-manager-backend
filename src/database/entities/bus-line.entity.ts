@@ -39,7 +39,7 @@ export class BusLine {
   updated_at: Date;
 
   @Column({ type: 'boolean', default: true })
-  @ApiProperty({ description: 'Indica si el bus está activo o eliminado', example: true })
+  @ApiProperty({ description: 'Indica si la linea está activa o eliminada', example: true })
   status: boolean;
 
   @OneToMany(() => BusLineStations, (busLineStation) => busLineStation.busLine)
