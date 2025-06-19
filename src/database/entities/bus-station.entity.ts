@@ -19,6 +19,7 @@ export enum BusStopType {
     CONTROL_POINT = 'CONTROL_POINT',
     BUS_STOP = 'BUS_STOP',
     TRACK_POINT = 'TRACK_POINT',
+    AUTOMATED_STOP = 'AUTOMATED_STOP',
 }
 
 @Entity('bus_stations')
@@ -32,15 +33,14 @@ export class BusStation {
     @ApiProperty({ description: 'Nombre del punto de parada', example: 'Sauces Norte' })
     name: string;
 
-    @Column()
-    @IsString()
-    @ApiProperty({ description: 'Latitud geográfica del punto', example: '-2.170998' })
-    lat: string;
 
-    @Column()
-    @IsString()
-    @ApiProperty({ description: 'Longitud geográfica del punto', example: '-79.922356' })
-    long: string;
+    @Column('double precision')
+    @ApiProperty({ description: 'Latitud geográfica del punto', example: -2.170998 })
+    lat: number;
+
+    @Column('double precision')
+    @ApiProperty({ description: 'Longitud geográfica del punto', example: -79.922356})
+    long: number;
 
     @Column()
     @IsString()
@@ -66,13 +66,17 @@ export class BusStation {
         default: BusStopType.BUS_STOP,
     })
     @IsEnum(BusStopType)
-    @ApiProperty({ description: 'Tipo , si es parada o punto de control', enum: BusStopType, example: BusStopType.CONTROL_POINT })
+    @ApiProperty({ description: 'Tipo , si es parada o punto de control', enum: BusStopType, example: BusStopType.BUS_STOP })
     type: BusStopType;
+
+    
 
     @CreateDateColumn()
     @IsDate()
     @ApiProperty({ description: 'Fecha de creación del registro', example: '2025-06-13T10:00:00Z' })
     created_at: Date;
+
+
 
     @UpdateDateColumn()
     @IsDate()

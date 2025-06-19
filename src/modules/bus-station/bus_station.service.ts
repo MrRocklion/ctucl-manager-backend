@@ -4,19 +4,44 @@ import { MqttService } from 'src/modules/mqtt/mqtt.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MqttCommandHistory } from 'src/database/entities/mqtt-command-history.entity';
 import { Repository } from 'typeorm';
+import { CreateBusStationDto } from './dto/create-bus-station.dto';
+import { BusStation } from 'src/database/entities/bus-station.entity';
 
 @Injectable()
 export class BusStationService {
   constructor(
+
     @InjectRepository(MqttCommandHistory)
-    private readonly mqttCommandHistoryRepository: Repository<MqttCommandHistory>,  // Cambié el nombre a mqttCommandHistoryRepository
+    private readonly mqttCommandHistoryRepository: Repository<MqttCommandHistory>,
+    @InjectRepository(BusStation)
+    private readonly busStationRepository: Repository<BusStation>,
     private readonly mqttService: MqttService,
   ) {}
 
-  // Método para ejecutar un comando MQTT y guardarlo en la base de datos
+  async create(createBusStationDto: CreateBusStationDto) {
+    try {
+        const newBusStation = {
+      ...createBusStationDto,
+      name: createBusStationDto.name.toUpperCase(),
+      route: createBusStationDto.route.toUpperCase(),
+      address: createBusStationDto.address.toUpperCase(),
+        }
+       const busStation = await this.busStationRepository.save(newBusStation);
+
+      return {
+        message: "Estación de autobuses creada con éxito",
+        status: 201,
+        result: busStation,
+      };
+    } catch (error) {
+      console.error("Error en create:", error);
+      throw new Error("No se pudo crear la estación de autobuses");
+    }
+
+  }
+
   async exectMqttCommand(mqttCommand: MqttCommand) {
     try {
-      // Publicamos el comando en el broker MQTT
       const isPublished = await this.mqttService.publish(mqttCommand.topic, {
         command: mqttCommand.command,
         path: mqttCommand.path,
@@ -26,12 +51,11 @@ export class BusStationService {
         throw new Error("Error al publicar el comando en MQTT.");
       }
 
-      // Guardamos el comando MQTT en la base de datos usando el repositorio de TypeORM
       const newMqttCommandHistory = this.mqttCommandHistoryRepository.create({
-        ...mqttCommand,  // Creamos la entidad usando los datos del comando
+        ...mqttCommand,  
       });
 
-      await this.mqttCommandHistoryRepository.save(newMqttCommandHistory); // Guardamos el nuevo registro
+      await this.mqttCommandHistoryRepository.save(newMqttCommandHistory);
 
       return {
         message: "Petición realizada con éxito",
@@ -49,14 +73,17 @@ export class BusStationService {
     }
   }
 
-  // Método para obtener el historial de comandos MQTT
-  async getMqttHistory(): Promise<any[]> {
+  async getMqttHistory(){
     try {
-      // Obtenemos todos los registros de la base de datos
       const db_data = await this.mqttCommandHistoryRepository.find();
-      const convertedData = convertToEcuadorTime(db_data); // Convertimos la hora a la zona horaria de Ecuador
-      const sortedData = convertedData.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()); // Ordenamos los datos por fecha
-      return sortedData;
+      const convertedData = convertToEcuadorTime(db_data);
+      const sortedData = convertedData.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      
+      return{
+        message: "Historial de comandos MQTT obtenido con éxito",
+        status: 200,
+        result: sortedData,
+      }
     } catch (error) {
       console.error("Error en getMqttHistory:", error);
       throw new Error("No se pudo obtener el historial MQTT");
@@ -64,21 +91,21 @@ export class BusStationService {
   }
 }
 
-// Función para convertir las fechas a la zona horaria de Ecuador (UTC -5)
+
 function convertToEcuadorTime(data: any[]) {
   return data.map(item => {
-    // Convertir la fecha UTC a Ecuador (UTC-5)
+
     const utcDate = new Date(item.createdAt);
-    const ecuadorDate = new Date(utcDate.setHours(utcDate.getHours() - 5)); // Resta 5 horas para UTC-5
+    const ecuadorDate = new Date(utcDate.setHours(utcDate.getHours() - 5)); 
     
-    const formattedDate = ecuadorDate.toISOString().split('T')[0]; // Fecha en formato YYYY-MM-DD
-    const formattedTime = ecuadorDate.toISOString().split('T')[1].split('.')[0]; // Hora en formato HH:mm:ss
+    const formattedDate = ecuadorDate.toISOString().split('T')[0];
+    const formattedTime = ecuadorDate.toISOString().split('T')[1].split('.')[0];
 
     return {
       ...item,
-      createdAt: ecuadorDate,  // Guardamos la fecha convertida
-      date: formattedDate,     // Solo la fecha
-      time: formattedTime      // Solo la hora
+      createdAt: ecuadorDate,
+      date: formattedDate,
+      time: formattedTime
     };
   });
 }

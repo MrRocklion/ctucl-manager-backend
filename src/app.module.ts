@@ -7,7 +7,6 @@ import { MqttModule } from './modules/mqtt/mqtt.module';
 import { DatabaseModule } from './database/database.module';
 import { CompanyModule } from './modules/company/company.module';
 import { VehicleModule } from './modules/vehicle/vehicle.module';
-import { BusLineController } from './modules/bus-line/bus-line.controller';
 import { DeviceModule } from './modules/device/device.module';
 import { BusLineModule } from './modules/bus-line/bus-line.module';
 import { BusStationLineModule } from './modules/bus-station-line/bus-station-line.module';
@@ -32,6 +31,6 @@ import { ScheduleModule } from './modules/schedule/schedule.module';
     InteneraryModule,
     ScheduleModule
   ],
-  controllers: [BusLineController],
+  controllers: [],
 })
 export class AppModule {}

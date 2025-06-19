@@ -5,11 +5,12 @@ import { MqttModule } from 'src/modules/mqtt/mqtt.module';
 import { AuthModule } from 'src/modules/auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MqttCommandHistory } from 'src/database/entities/mqtt-command-history.entity';
+import { BusStation } from 'src/database/entities/bus-station.entity';
 
 
 
 @Module({
-  imports:[MqttModule,AuthModule,TypeOrmModule.forFeature([MqttCommandHistory])],
+  imports:[MqttModule,AuthModule,TypeOrmModule.forFeature([MqttCommandHistory,BusStation])],
   controllers: [BusStationController],
   providers: [BusStationService]
 })

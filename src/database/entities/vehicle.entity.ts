@@ -21,9 +21,9 @@ export class Vehicle {
     id: number;
 
     @Column()
-    @IsString()
-    @ApiProperty({ description: 'Número de registro del bus (ej: 1500 - 1738)', example: '1523' })
-    register: string;
+    @IsNumber()
+    @ApiProperty({ description: 'Número de registro del bus (ej: 1500 - 1738)', example: 1523 })
+    register: number;
 
     @Column()
     @IsString()
@@ -31,6 +31,7 @@ export class Vehicle {
     partner: string;
 
     @ManyToOne(() => User, (user) => user.vehicles, { nullable: true })
+    @JoinColumn({ name: 'user_id' })
     @IsOptional()
     @ApiProperty({
     description: 'Usuario dueño del vehículo. Si no tiene, el vehículo pertenece a la empresa',
