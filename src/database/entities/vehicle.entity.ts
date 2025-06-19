@@ -6,7 +6,7 @@ import { User } from './user.entity';
 export enum OperationStatus {
     INACTIVE = 'inactivo',
     ON_ROUTE = 'en_ruta',
-    WAITING = 'en_espera',
+    WAITING = 'reten',
 }
 
 export enum Grupo {

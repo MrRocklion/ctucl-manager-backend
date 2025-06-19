@@ -12,7 +12,7 @@ import { BusStation } from './entities/bus-station.entity';
 import { Device } from './entities/device.entity';
 import { Intinerary } from './entities/intenerary.entity';
 import { Schedule } from './entities/schedule.entity';
-import { Vehicle } from './entities/vehicles.entity';
+import { Vehicle } from './entities/vehicle.entity';
 @Module({
   imports: [
     AppConfigModule, // Importa ConfigModule para acceder a las variables de entorno

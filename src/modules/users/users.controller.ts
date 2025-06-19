@@ -7,17 +7,17 @@ import { FirebaseAuthGuard } from 'src/modules/auth/firebase-auth.guard';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
-  @Post()
-    create(@Body() createUserDto: CreateUserDto) {
-      return this.usersService.create(createUserDto);
-    }
-  @Get(':id')
-    findOne(@Param('id') id: string) {
-      return this.usersService.findUserById(id);
-    }
-  @Get('validate')
-    validateUser(@Body() user:LoginDto) {
-      return this.usersService.validateUser(user);
-    }
+	constructor(private readonly usersService: UsersService) { }
+	@Post()
+	create(@Body() createUserDto: CreateUserDto) {
+		return this.usersService.create(createUserDto);
+	}
+	@Get(':id')
+	findOne(@Param('id') id: string) {
+		return this.usersService.findUserById(id);
+	}
+	@Get('validate')
+	validateUser(@Body() user: LoginDto) {
+		return this.usersService.validateUser(user);
+	}
 }

@@ -14,23 +14,23 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Company)
     private readonly companyRepository: Repository<Company>,
-  ) {}
+  ) { }
 
   async create(createUserDto: CreateUserDto) {
     try {
-      
+
       const existingEmail = await this.userRepository.findOne({
         where: { email: createUserDto.email },
       });
 
       const companyRepository = await this.companyRepository.findOne({
         where: { id: createUserDto.company_id },
-    });
+      });
 
       if (!companyRepository) {
         throw new ConflictException('La empresa no existe');
       }
-      
+
 
       if (existingEmail) {
         throw new ConflictException('El correo electrónico ya está registrado');
@@ -38,8 +38,8 @@ export class UsersService {
       let userData = {
         ...createUserDto,
         company: companyRepository,
-        name:createUserDto.name.toLocaleUpperCase(),
-        lastname:createUserDto.lastname.toLocaleUpperCase(),
+        name: createUserDto.name.toLocaleUpperCase(),
+        lastname: createUserDto.lastname.toLocaleUpperCase(),
         address: createUserDto.address ? createUserDto.address.toLocaleUpperCase() : '',
       }
       const savedUser = await this.userRepository.save(userData);
@@ -50,7 +50,7 @@ export class UsersService {
         result: savedUser,
       };
     } catch (error) {
-      console.error('❌ Error al crear usuario:', error);
+      console.error('Error al crear usuario:', error);
       return {
         message: error instanceof Error ? error.message : 'Error desconocido',
         status: 500,
@@ -104,7 +104,7 @@ export class UsersService {
         ? { exists: true, data: foundUser }
         : { exists: false, data: null };
     } catch (error) {
-      console.error('❌ Error en validateUser:', error);
+      console.error('Error en validateUser:', error);
       return { exists: false, data: null };
     }
   }

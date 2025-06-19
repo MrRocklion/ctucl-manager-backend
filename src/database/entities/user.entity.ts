@@ -19,7 +19,7 @@ import {
   IsDate,
   IsBoolean,
 } from 'class-validator';
-import { Vehicle } from './vehicles.entity';
+import { Vehicle } from './vehicle.entity';
 
 export enum AccountType {
   ADMIN = 'ADMIN',
