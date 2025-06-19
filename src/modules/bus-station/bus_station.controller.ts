@@ -1,5 +1,4 @@
 import { Controller, UseGuards, Post, Body, Get, HttpStatus, HttpException } from '@nestjs/common';
-import { FirebaseAuthGuard } from 'src/modules/auth/firebase-auth.guard';
 import { MqttCommand } from './dto/bus-station-mqtt.dto';
 import { BusStationService } from './bus_station.service';
 import { CreateBusStationDto } from './dto/create-bus-station.dto';

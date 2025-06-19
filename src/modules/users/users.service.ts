@@ -1,6 +1,5 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { LoginDto } from 'src/modules/auth/dto/login.dto';
 import { ValidateUserDto } from './dto/validate-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/database/entities/user.entity';
@@ -86,26 +85,5 @@ export class UsersService {
     }
   }
 
-  async validateUser(user: LoginDto): Promise<ValidateUserDto> {
-    try {
-      let foundUser: User | null = null;
 
-      if (user.email) {
-        foundUser = await this.userRepository.findOne({
-          where: { email: user.email },
-        });
-      } else if (user.username) {
-        foundUser = await this.userRepository.findOne({
-          where: { username: user.username },
-        });
-      }
-
-      return foundUser
-        ? { exists: true, data: foundUser }
-        : { exists: false, data: null };
-    } catch (error) {
-      console.error('Error en validateUser:', error);
-      return { exists: false, data: null };
-    }
-  }
 }
